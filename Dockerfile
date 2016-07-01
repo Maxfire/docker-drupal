@@ -1,5 +1,6 @@
-FROM debian:jessie
-MAINTAINER Wouter Admiraal <wad@wadmiraal.net>
+FROM ubuntu:14.04
+MAINTAINER Alejandro Gomez <agommor@gmail.com>
+
 ENV DEBIAN_FRONTEND noninteractive
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
