@@ -117,12 +117,12 @@ RUN /etc/init.d/mysql start && \
 		--site-name="Drupal 8" \
 		--db-type=mysql \
 		--db-user=root \
-		--db-pass="" \
+		--db-pass="MYSQL_ROOT_PASSWORD" \
 		--db-name=drupal \
 		--site-mail=admin@example.com \
 		--account-name=admin \
 		--account-mail=admin@example.com \
-		--account-pass=admin
+		--account-pass=$DRUPAL_ADMIN_PASSWORD
 RUN /etc/init.d/mysql start && \
 	cd /var/www && \
 	drupal module:install admin_toolbar --latest && \
