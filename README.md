@@ -1,4 +1,4 @@
-Drupal development with Docker
+Drupal 8 development with Docker
 ==============================
 
 Quick and easy to use Docker container for your *local Drupal 8 development*. It contains a LAMP stack and an SSH server, along with an up to date version of Drush. It is based on [Wouter Admiraal](https://github.com/wadmiraal/docker-drupal).
