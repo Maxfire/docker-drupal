@@ -1,7 +1,17 @@
 FROM ubuntu:14.04
 MAINTAINER Alejandro Gomez <agommor@gmail.com>
 
+# Arguments
+ARG MYSQL_USER=root
+ARG MYSQL_PASSWORD=
+ARG DRUPAL_ADMIN_PASSWORD=admin
+
+# Environments args
 ENV DEBIAN_FRONTEND noninteractive
+ENV MYSQL_USER ${MYSQL_USER}
+ENV MYSQL_PASSWORD ${MYSQL_PASSWORD}
+ENV DRUPAL_ADMIN_PASSWORD ${DRUPAL_ADMIN_PASSWORD}
+
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install packages.
