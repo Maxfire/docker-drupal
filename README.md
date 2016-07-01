@@ -46,7 +46,7 @@ Clone the repository locally and build it:
 
 	git clone https://github.com/agomezmoron/docker-drupal-8.git
 	cd docker-drupal-8
-	docker build -t yourname/drupal .
+	docker build -t yourname/drupal8 .
 
 You can define some passwords (in case you want to have an image for production, for example). To do that you only has to set the variables in the docker build command (docker 1.9+):
 	
