@@ -2,17 +2,23 @@ FROM ubuntu:14.04
 MAINTAINER Alejandro Gomez <agommor@gmail.com>
 
 # Arguments
-ARG MYSQL_USER=root
-ARG MYSQL_PASSWORD=
+ARG MYSQL_ROOT_PASSWORD=
 ARG DRUPAL_ADMIN_PASSWORD=admin
+ARG SSH_ROOT_PASSWORD=root
+ARG DRUPAL_VERSION=8.1.2
 
 # Environments args
 ENV DEBIAN_FRONTEND noninteractive
-ENV MYSQL_USER ${MYSQL_USER}
-ENV MYSQL_PASSWORD ${MYSQL_PASSWORD}
+ENV MYSQL_ROOT_PASSWORD ${MYSQL_PASSWORD}
 ENV DRUPAL_ADMIN_PASSWORD ${DRUPAL_ADMIN_PASSWORD}
+EVN SSH_ROOT_PASSWORD ${SSH_ROOT_PASSWORD}
+EVN DRUPAL_VERSION ${DRUPAL_VERSION}
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+# Setup MySQL (before the installation).
+RUN debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD"
+RUN debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD"
 
 # Install packages.
 RUN apt-get update
@@ -53,7 +59,6 @@ RUN drupal init
 RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini
 RUN sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/cli/php.ini
 
-
 # Setup Apache.
 # In order to run our Simpletest tests, we need to make Apache
 # listen on the same port as the one we forwarded. Because we use
@@ -66,14 +71,16 @@ RUN a2enmod rewrite
 
 # Setup PHPMyAdmin
 RUN echo -e "\n# Include PHPMyAdmin configuration\nInclude /etc/phpmyadmin/apache.conf\n" >> /etc/apache2/apache2.conf
-RUN sed -i -e "s/\/\/ \$cfg\['Servers'\]\[\$i\]\['AllowNoPassword'\]/\$cfg\['Servers'\]\[\$i\]\['AllowNoPassword'\]/g" /etc/phpmyadmin/config.inc.php
+# db access
+RUN sed -i -e "s/$dbuser=''/$dbuser='root'/g" /etc/phpmyadmin/db-config.inc.php
+RUN sed -i -e "s/$dbpass=''/$dbpass='$MYSQL_ROOT_PASSWORD'/g" /etc/phpmyadmin/db-config.inc.php
 RUN sed -i -e "s/\$cfg\['Servers'\]\[\$i\]\['\(table_uiprefs\|history\)'\].*/\$cfg\['Servers'\]\[\$i\]\['\1'\] = false;/g" /etc/phpmyadmin/config.inc.php
 
 # Setup MySQL, bind on all addresses.
 RUN sed -i -e 's/^bind-address\s*=\s*127.0.0.1/#bind-address = 127.0.0.1/' /etc/mysql/my.cnf
 
 # Setup SSH.
-RUN echo 'root:root' | chpasswd
+RUN echo "root:$SSH_ROOT_PASSWORD" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
 RUN mkdir -p /root/.ssh/ && touch /root/.ssh/authorized_keys
@@ -92,7 +99,7 @@ RUN echo "xdebug.max_nesting_level = 300" >> /etc/php5/cli/conf.d/20-xdebug.ini
 # Install Drupal.
 RUN rm -rf /var/www
 RUN cd /var && \
-	drupal site:new www 8.1.2
+	drupal site:new www $DRUPAL_VERSION
 RUN mkdir -p /var/www/sites/default/files && \
 	chmod a+w /var/www/sites/default -R && \
 	mkdir /var/www/sites/all/modules/contrib -p && \
