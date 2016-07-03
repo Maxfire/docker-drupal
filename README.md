@@ -48,13 +48,21 @@ This is the most powerful approach: you can customize your drupal docker image e
 
 Clone the repository locally and build it:
 
-	git clone https://github.com/agomezmoron/docker-drupal-8.git
+	git clone https://github.com/agomezmoron/docker-drupal.git
+	// building drupal8
 	cd docker-drupal-8
 	docker build -t yourname/drupal8 .
+	// building drupal7
+	cd docker-drupal-7
+	docker build -t yourname/drupal7 .
 	
 **Important:** This image was made to be used using **docker 1.9 or higher**. If your docker version is <1.9, so you will have to edit the [Dockerfile](Dockerfile) removing the ARG sections. Here you can check the [docker versions](https://github.com/docker/docker/releases) availables.
 
 You can define some passwords (in case you want to have an image for production, for example). To do that you only has to set the variables in the docker build command (docker 1.9+):
+	
+	docker build  build --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=7.44  -t yourname/drupal7 .
+	
+	or
 	
 	docker build  build --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=8.1.2  -t yourname/drupal8 .
 
