@@ -17,7 +17,7 @@ This image contains:
 * MySQL 5.5
 * PHP 5.6
 * Drush 7 or latest release of Drupal Console.
-* Drupal 7.x or 7.x
+* Drupal 7.x or 8.x
 * Composer
 * PHPMyAdmin
 
