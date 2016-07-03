@@ -60,7 +60,7 @@ Get the image:
 
 The provided image is coming with the default versions described before.
 
-	docker pull agomezmoron/drupal8
+	docker pull agomezmoron/drupal8 (pending to be uploaded)
 
 #### Tags
 
