@@ -5,7 +5,7 @@ MAINTAINER Alejandro Gomez <agommor@gmail.com>
 ARG MYSQL_ROOT_PASSWORD=
 ARG DRUPAL_ADMIN_PASSWORD=admin
 ARG SSH_ROOT_PASSWORD=root
-ARG DRUPAL_VERSION=8.1.2
+ARG DRUPAL_VERSION=7.44
 
 # Environments args
 ENV DEBIAN_FRONTEND noninteractive
@@ -95,7 +95,7 @@ RUN echo "xdebug.max_nesting_level = 300" >> /etc/php5/cli/conf.d/20-xdebug.ini
 # Install Drupal.
 RUN rm -rf /var/www
 RUN cd /var && \
-	drush dl drupal-7.44 && \
+	drush dl drupal-$DRUPAL_VERSION && \
 	mv /var/drupal* /var/www
 RUN mkdir -p /var/www/sites/default/files && \
 	chmod a+w /var/www/sites/default -R && \
