@@ -17,8 +17,8 @@ ENV DRUPAL_VERSION ${DRUPAL_VERSION}
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Setup MySQL (before the installation).
-RUN debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD"
-RUN debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD"
+RUN debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_ROOT_PASSWORD}"
+RUN debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${MYSQL_ROOT_PASSWORD}"
 
 # Install packages.
 RUN apt-get update
@@ -70,14 +70,14 @@ RUN a2enmod rewrite
 RUN echo -e "\n# Include PHPMyAdmin configuration\nInclude /etc/phpmyadmin/apache.conf\n" >> /etc/apache2/apache2.conf
 # db access
 RUN sed -i -e "s/$dbuser=''/$dbuser='root'/g" /etc/phpmyadmin/db-config.inc.php
-RUN sed -i -e "s/$dbpass=''/$dbpass='$MYSQL_ROOT_PASSWORD'/g" /etc/phpmyadmin/db-config.inc.php
+RUN sed -i -e "s/$dbpass=''/$dbpass='${MYSQL_ROOT_PASSWORD}'/g" /etc/phpmyadmin/db-config.inc.php
 RUN sed -i -e "s/\$cfg\['Servers'\]\[\$i\]\['\(table_uiprefs\|history\)'\].*/\$cfg\['Servers'\]\[\$i\]\['\1'\] = false;/g" /etc/phpmyadmin/config.inc.php
 
 # Setup MySQL, bind on all addresses.
 RUN sed -i -e 's/^bind-address\s*=\s*127.0.0.1/#bind-address = 127.0.0.1/' /etc/mysql/my.cnf
 
 # Setup SSH.
-RUN echo "root:$SSH_ROOT_PASSWORD" | chpasswd
+RUN echo "root:${SSH_ROOT_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
 RUN mkdir -p /root/.ssh/ && touch /root/.ssh/authorized_keys
@@ -95,7 +95,7 @@ RUN echo "xdebug.max_nesting_level = 300" >> /etc/php5/cli/conf.d/20-xdebug.ini
 # Install Drupal.
 RUN rm -rf /var/www
 RUN cd /var && \
-	drush dl drupal-$DRUPAL_VERSION && \
+	drush dl drupal-${DRUPAL_VERSION} && \
 	mv /var/drupal* /var/www
 RUN mkdir -p /var/www/sites/default/files && \
 	chmod a+w /var/www/sites/default -R && \
@@ -106,7 +106,7 @@ RUN mkdir -p /var/www/sites/default/files && \
 	chown -R www-data:www-data /var/www/
 RUN /etc/init.d/mysql start && \
 	cd /var/www && \
-	drush si -y minimal --db-url=mysql://root:$MYSQL_ROOT_PASSWORD@localhost/drupal --account-pass=$DRUPAL_ADMIN_PASSWORD && \
+	drush si -y minimal --db-url=mysql://root:${MYSQL_ROOT_PASSWORD}@localhost/drupal --account-pass=${DRUPAL_ADMIN_PASSWORD} && \
 	drush dl admin_menu devel && \
 	drush en -y admin_menu simpletest devel && \
 	drush vset "admin_menu_tweak_modules" 1 && \
