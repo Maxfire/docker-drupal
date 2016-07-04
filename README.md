@@ -1,6 +1,10 @@
 Drupal 7 & 8 development with Docker
 ====================================
 
+<img src="resources/drupal7.png" alt="Drupal 7 logo" height="150" />
+<img src="resources/docker.png" alt="Docker logo" height="150" />
+<img src="resources/drupal8.png" alt="Drupal 7 logo" height="150" />
+
 Quick and easy to use Docker container for your *local Drupal 7 & 8 development*. It contains a LAMP stack and an SSH server, along with an up to date version of Drush. It is based on [Wouter Admiraal](https://github.com/wadmiraal/docker-drupal) but using an **[Ubuntu 14.04](https://hub.docker.com/_/ubuntu/)** as OS.
 
 You will find two folders:
