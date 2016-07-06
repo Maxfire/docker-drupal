@@ -27,7 +27,7 @@ When launching, the container will contain a fully-installed, ready to use Drupa
 By defaults, the passwords are:
 
 * Drupal: `admin:admin`
-* MySQL: `root:` (no password)
+* MySQL: `root:admin` 
 * SSH: `root:root`
  
 Anyway, the passwords can be defined (see the installation section).
