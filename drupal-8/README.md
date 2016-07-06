@@ -1,6 +1,9 @@
 Drupal 8 development with Docker
 ==============================
 
+<a href="https://www.drupal.org/8" target="_blank" title="Drupal 8"><img src="../resources/drupal8.png" alt="Drupal 8 logo" height="150" /></a>
+<a href="https://www.docker.com/" title="Docker" target="_blank"><img src="../resources/docker.png" alt="Docker logo" height="150" /></a>
+
 Quick and easy to use Docker container for your *local Drupal 8 development*. It contains a LAMP stack and an SSH server, along with an up to date version of Drush. It is based on [Wouter Admiraal](https://github.com/wadmiraal/docker-drupal) but using an **[Ubuntu 14.04](https://hub.docker.com/_/ubuntu/)** as OS.
 
 Summary
@@ -24,7 +27,7 @@ When launching, the container will contain a fully-installed, ready to use Drupa
 By defaults, the passwords are:
 
 * Drupal: `admin:admin`
-* MySQL: `root:` (no password)
+* MySQL: `root:admin` 
 * SSH: `root:root`
  
 Anyway, the passwords can be defined (see the installation section).
@@ -52,7 +55,7 @@ Clone the repository locally and build it:
 
 You can define some passwords (in case you want to have an image for production, for example). To do that you only has to set the variables in the docker build command (docker 1.9+):
 	
-	docker build  build --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=8.1.2  -t yourname/drupal8 .
+	docker build  --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=8.1.2  -t yourname/drupal8 .
 
 ### Docker repository
 
