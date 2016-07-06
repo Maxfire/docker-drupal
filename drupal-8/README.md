@@ -55,7 +55,7 @@ Clone the repository locally and build it:
 
 You can define some passwords (in case you want to have an image for production, for example). To do that you only has to set the variables in the docker build command (docker 1.9+):
 	
-	docker build  build --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=8.1.2  -t yourname/drupal8 .
+	docker build  --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=8.1.2  -t yourname/drupal8 .
 
 ### Docker repository
 
