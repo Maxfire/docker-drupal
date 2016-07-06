@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER Alejandro Gomez <agommor@gmail.com>
 
 # Arguments
-ARG MYSQL_ROOT_PASSWORD=
+ARG MYSQL_ROOT_PASSWORD=admin
 ARG DRUPAL_ADMIN_PASSWORD=admin
 ARG SSH_ROOT_PASSWORD=root
 ARG DRUPAL_VERSION=7.44
@@ -69,8 +69,9 @@ RUN a2enmod rewrite
 # Setup PHPMyAdmin
 RUN echo -e "\n# Include PHPMyAdmin configuration\nInclude /etc/phpmyadmin/apache.conf\n" >> /etc/apache2/apache2.conf
 # db access
-RUN sed -i -e "s/$dbuser=''/$dbuser='root'/g" /etc/phpmyadmin/db-config.inc.php
-RUN sed -i -e "s/$dbpass=''/$dbpass='${MYSQL_ROOT_PASSWORD}'/g" /etc/phpmyadmin/db-config.inc.php
+RUN sed -i -e "s/$dbuser=''/$dbuser='root'/g" /etc/phpmyadmin/config-db.php
+RUN sed -i -e "s/$dbpass=''/$dbpass='${MYSQL_ROOT_PASSWORD}'/g" /etc/phpmyadmin/config-db.php
+
 RUN sed -i -e "s/\$cfg\['Servers'\]\[\$i\]\['\(table_uiprefs\|history\)'\].*/\$cfg\['Servers'\]\[\$i\]\['\1'\] = false;/g" /etc/phpmyadmin/config.inc.php
 
 # Setup MySQL, bind on all addresses.
