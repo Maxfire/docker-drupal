@@ -9,8 +9,8 @@ Quick and easy to use Docker container for your *local Drupal 7 & 8 development*
 
 You will find two folders:
 
- * **[Drupal 7](/drupal-7):** Here you will find the image related to Drupal 7.X versions.
- * **[Drupal 8](/drupal-8):** Here you will find the image related to Drupal 8.X versions.
+ * **[Drupal 7](/drupal-7):** Here you will find the image related to Drupal 7.X versions. [![](https://images.microbadger.com/badges/image/agomezmoron/docker-drupal-7.svg)](https://hub.docker.com/r/agomezmoron/docker-drupal-7/)
+ * **[Drupal 8](/drupal-8):** Here you will find the image related to Drupal 8.X versions. [![](https://images.microbadger.com/badges/image/agomezmoron/docker-drupal-8.svg)](https://hub.docker.com/r/agomezmoron/docker-drupal-8/)
 
 Summary
 -------
@@ -32,9 +32,9 @@ When launching, the container will contain a fully-installed, ready to use Drupa
 By defaults, the passwords are:
 
 * Drupal: `admin:admin`
-* MySQL: `root:admin` 
+* MySQL: `root:admin`
 * SSH: `root:root`
- 
+
 Anyway, the passwords can be defined (see the installation section).
 
 ### Exposed ports
@@ -59,15 +59,15 @@ Clone the repository locally and build it:
 	// building drupal7
 	cd docker-drupal-7
 	docker build -t yourname/drupal7 .
-	
+
 **Important:** This image was made to be used using **docker 1.9 or higher**. If your docker version is <1.9, so you will have to edit the [Dockerfile](Dockerfile) removing the ARG sections. Here you can check the [docker versions](https://github.com/docker/docker/releases) availables.
 
 You can define some passwords (in case you want to have an image for production, for example). To do that you only has to set the variables in the docker build command (docker 1.9+):
-	
+
 	docker build --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=7.44  -t yourname/drupal7 .
-	
+
 	or
-	
+
 	docker build --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=8.1.2  -t yourname/drupal8 .
 
 ### Docker repository
@@ -94,9 +94,9 @@ The container exposes its `80` port (Apache), its `3306` port (MySQL) and its `2
 Here's an example just running the container and forwarding `localhost:8080` and `localhost:8022` to the container:
 
 	docker run -d -p 8080:80 -p 8022:22 -t agomezmoron/drupal7
-	
+
 	or
-	
+
 	docker run -d -p 8080:80 -p 8022:22 -t agomezmoron/drupal8
 
 ### Writing code locally
@@ -104,9 +104,9 @@ Here's an example just running the container and forwarding `localhost:8080` and
 Here's an example running the container, forwarding port `8080` like before, but also mounting Drupal's `sites/all/modules/custom/` folder to my local `modules/` folder. I can then start writing code on my local machine, directly in this folder, and it will be available inside the container:
 
 	docker run -d -p 8080:80 -v `pwd`/modules:/var/www/sites/all/modules/custom -t agomezmoron/drupal7
-	
+
 	or
-	
+
 	docker run -d -p 8080:80 -v `pwd`/modules:/var/www/sites/all/modules/custom -t agomezmoron/drupal8
 
 ### Using Drush

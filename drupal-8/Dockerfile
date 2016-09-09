@@ -39,7 +39,8 @@ RUN apt-get install -y \
 	phpmyadmin \
 	wget \
 	unzip \
-	supervisor
+	supervisor \
+  sendmail
 RUN apt-get clean
 
 # Install Composer.
@@ -124,7 +125,9 @@ RUN /etc/init.d/mysql start && \
 		--account-pass=${DRUPAL_ADMIN_PASSWORD}
 RUN /etc/init.d/mysql start && \
 	cd /var/www && \
-	drupal module:install admin_toolbar --latest && \
+  drupal module:download admin_toolbar && \
+  drupal module:install admin_toolbar && \
+  drupal module:download simpletest && \
 	drupal module:install simpletest
 
 EXPOSE 80 3306 22
