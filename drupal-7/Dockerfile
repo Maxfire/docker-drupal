@@ -5,7 +5,7 @@ MAINTAINER Alejandro Gomez <agommor@gmail.com>
 ARG MYSQL_ROOT_PASSWORD=admin
 ARG DRUPAL_ADMIN_PASSWORD=admin
 ARG SSH_ROOT_PASSWORD=root
-ARG DRUPAL_VERSION=7.44
+ARG DRUPAL_VERSION=7.50
 
 # Environments args
 ENV DEBIAN_FRONTEND noninteractive
@@ -39,7 +39,8 @@ RUN apt-get install -y \
 	phpmyadmin \
 	wget \
 	unzip \
-	supervisor
+	supervisor \
+  sendmail
 RUN apt-get clean
 
 # Install Composer.

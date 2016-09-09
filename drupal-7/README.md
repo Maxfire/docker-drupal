@@ -5,6 +5,9 @@ Drupal 7 development with Docker
 
 Quick and easy to use Docker container for your *local Drupal 7 development*. It contains a LAMP stack and an SSH server, along with an up to date version of Drush. It is based on [Wouter Admiraal](https://github.com/wadmiraal/docker-drupal) but using an **[Ubuntu 14.04](https://hub.docker.com/_/ubuntu/)** as OS.
 
+[![](https://images.microbadger.com/badges/image/agomezmoron/docker-drupal-7.svg)](https://hub.docker.com/r/agomezmoron/docker-drupal-7/)
+
+
 Summary
 -------
 
@@ -28,7 +31,7 @@ By defaults, the passwords are:
 * Drupal: `admin:admin`
 * MySQL: `root:admin`
 * SSH: `root:root`
- 
+
 Anyway, the passwords can be defined (see the installation section).
 
 ### Exposed ports
@@ -49,11 +52,11 @@ Clone the repository locally and build it:
 	git clone https://github.com/agomezmoron/docker-drupal.git
 	cd docker-drupal-7
 	docker build -t yourname/drupal7 .
-	
+
 **Important:** If your docker version is <1.9, so you will have to edit the [Dockerfile](Dockerfile) removing the ARG sections.
 
 You can define some passwords (in case you want to have an image for production, for example). To do that you only has to set the variables in the docker build command (docker 1.9+):
-	
+
 	docker build  --build-arg MYSQL_ROOT_PASSWORD=admin,DRUPAL_ADMIN_PASSWORD=admin,SSH_ROOT_PASSWORD=root,DRUPAL_VERSION=7.44  -t yourname/drupal8 .
 
 ### Docker repository
